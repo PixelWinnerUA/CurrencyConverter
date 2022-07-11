@@ -6,13 +6,19 @@ export const SetCurrencyActionCreator = (newCurrency) => ({
 })
 
 export const GetNewCurrency = () => async (dispatch) => {
-    Promise.all([GetEUR(), GetUSD(), GetRUB(), GetBTC()]).then(values => dispatch(SetCurrencyActionCreator(values)));
+    Promise.all([GetEUR(), GetUSD(), GetRUB(), GetBTC()])
+        .then(values => {
+            for (let i = 0; i < values.length; i++) {
+                if (!values[i])
+                    values[i] = 0;
+            }
+            dispatch(SetCurrencyActionCreator(values))
+        })
 }
 
 let initialState = {
     Currency: [],
 }
-
 
 const CurrencyReducer = (state = initialState, action) => {
 
@@ -21,6 +27,11 @@ const CurrencyReducer = (state = initialState, action) => {
             return {
                 ...state,
                 Currency: action.newCurrency
+            }
+        case "SET-API-STATUS":
+            return {
+                ...state,
+                ApiStatus: action.status
             }
         default:
             return {

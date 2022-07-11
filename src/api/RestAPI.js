@@ -18,24 +18,30 @@ export const Convert = async (from, to, amount = 0) => {
     }
     cancelToken = axios.CancelToken.source()
     return await axios.get("https://api.apilayer.com/currency_data/convert?to="
-        + to + "&from=" + from + "&amount=" + amount).then(response => response.data.result)
+        + to + "&from=" + from + "&amount=" + amount).then(response => {
+        if (response.data.result) {
+            return response.data.result
+        } else {
+            return "0";
+        }
+    })
 }
 
 export const GetEUR = async () => {
     return await axios.get("https://api.apilayer.com/currency_data/live?source=EUR&currencies=UAH")
-        .then(response => response.data.quotes.EURUAH)
+        .then(response => response.data.quotes?.EURUAH)
 }
 export const GetUSD = async () => {
     return await axios.get("https://api.apilayer.com/currency_data/live?source=USD&currencies=UAH")
-        .then(response => response.data.quotes.USDUAH)
+        .then(response => response.data.quotes?.USDUAH)
 }
 export const GetRUB = async () => {
     return await axios.get("https://api.apilayer.com/currency_data/live?source=RUB&currencies=UAH")
-        .then(response => response.data.quotes.RUBUAH)
+        .then(response => response.data.quotes?.RUBUAH)
 }
 export const GetBTC = async () => {
     return await axios.get("https://api.apilayer.com/currency_data/live?source=BTC&currencies=UAH")
-        .then(response => response.data.quotes.BTCUAH)
+        .then(response => response.data.quotes?.BTCUAH)
 }
 
 
