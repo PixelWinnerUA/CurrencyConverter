@@ -3,11 +3,17 @@ import '../styles/App.scss';
 import {CircularProgress, FormControl, NativeSelect, TextField} from "@mui/material";
 import {Convert} from "../api/RestAPI";
 import {ToastContainer} from "react-toastify";
+import {useDispatch, useSelector} from "react-redux";
+import {GetNewCurrency} from "../redux/reducers/CurrencyReducer";
+import {getCurrency} from "../redux/reducers/CurrencySelector";
 
-const App = (props) => {
+const App = () => {
+    const dispatch = useDispatch();
+    const Currency = useSelector(getCurrency);
     const isInitialMount = useRef(true);
     let date = new Date();
     let CurrentDate = String(date.getDate()).padStart(2, '0') + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + date.getFullYear();
+
     const [values, setValues] = useState({
         firstSelect: "USD",
         secondSelect: "UAH",
@@ -18,6 +24,7 @@ const App = (props) => {
         prevFirstInput: "",
         prevSecondInput: "",
     })
+
     const handleChange = (prop) => (event) => {
         setValues({
             ...values,
@@ -27,10 +34,10 @@ const App = (props) => {
 
     useEffect(() => {
         if (isInitialMount.current) {
-            props.GetNewCurrency()
+            dispatch(GetNewCurrency())
             isInitialMount.current = false;
         }
-    })
+    },[])
 
     useEffect(() => {
         if (values.prevFirstInput !== values.firstInput && +values.firstInput) {
@@ -85,13 +92,13 @@ const App = (props) => {
     return (
         <div className="App">
             <div className="App-Header">
-                {props.Currency.length ?
+                {Currency.length ?
                     <div className="Currency-List">
                         <span><div>UER </div>
-                            {props.Currency[0]} UAH</span><span><div>USD </div>
-                        {props.Currency[1]} UAH</span><span><div>RUB </div>
-                        {props.Currency[2]} UAH</span><span><div>BTC </div>
-                        {props.Currency[3]} UAH</span>
+                            {Currency[0]} UAH</span><span><div>USD </div>
+                        {Currency[1]} UAH</span><span><div>RUB </div>
+                        {Currency[2]} UAH</span><span><div>BTC </div>
+                        {Currency[3]} UAH</span>
                     </div> :
                     <CircularProgress/>}
             </div>

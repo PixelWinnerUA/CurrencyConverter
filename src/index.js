@@ -4,14 +4,14 @@ import {Provider} from "react-redux";
 import store from "./redux/store";
 import Preloader from "./components/Preloader";
 
-const AppContainer = lazy(() => import("./components/AppContainer"))
+const App = lazy(() => import("./components/App"))
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <Suspense fallback={<Preloader/>}>
             <Provider store={store}>
-                <AppContainer/>
+                <App/>
             </Provider>
         </Suspense>
     </React.StrictMode>
