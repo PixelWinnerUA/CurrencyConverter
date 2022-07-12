@@ -1,4 +1,4 @@
-# CurrencyConverter
+# Currency converter
 This site is designed to convert currencies.
 
 This is one of my test jobs.
